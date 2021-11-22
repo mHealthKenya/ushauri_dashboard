@@ -153,6 +153,14 @@
     </div>
 </div>
 
+<div class='loadscreen hidden' id="preloader">
+
+        <div class="loader spinner-bubble spinner-bubble-primary">
+
+
+        </div>
+    </div>
+
 
 @endsection
 
@@ -253,6 +261,9 @@
 
     $('#dataFilter').on('submit', function(e) {
         e.preventDefault();
+
+        $("#preloader").show();
+
         let partners = $('#partners').val();
         let counties = $('#counties').val();
         let subcounties = $('#subcounties').val();
@@ -296,6 +307,8 @@
 
            }
         });
+
+        $("#preloader").hide();
     });
 
 
