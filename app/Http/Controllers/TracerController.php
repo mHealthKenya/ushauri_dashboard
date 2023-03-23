@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Outcome;
 use App\Models\Appointments;
 use App\Models\FutureApp;
+use App\Models\Clinic;
 use Session;
 use Auth;
 use DB;
@@ -53,12 +54,12 @@ class TracerController extends Controller
   }
   public function tracing_cost()
   {
-    if (Auth::user()->access_level == 'Admin') {
+    if (Auth::user()->access_level == 'Admin' || Auth::user()->access_level == 'Donor') {
       $tracing_cost = Outcome::join('tbl_users', 'tbl_clnt_outcome.created_by', '=', 'tbl_users.id')
         ->join('tbl_client', 'tbl_clnt_outcome.client_id', '=', 'tbl_client.id')
         ->select('tbl_clnt_outcome.app_status', DB::raw("CONCAT(`tbl_users`.`f_name`, ' ', `tbl_users`.`m_name`, ' ', `tbl_users`.`l_name`) as tracer_name"), 'tbl_client.clinic_number', 'tbl_clnt_outcome.tracing_cost')
         ->whereNotNull('tbl_clnt_outcome.tracing_cost')
-        ->get();
+        ->paginate(1000);
 
       $total_costing = Outcome::join('tbl_users', 'tbl_clnt_outcome.created_by', '=', 'tbl_users.id')
         ->join('tbl_client', 'tbl_clnt_outcome.client_id', '=', 'tbl_client.id')
@@ -90,8 +91,9 @@ class TracerController extends Controller
     if (Auth::user()->access_level == 'Facility') {
       $all_booked = Appointments::join('tbl_client', 'tbl_appointment.client_id', '=', 'tbl_client.id')
         ->join('tbl_appointment_types', 'tbl_appointment.app_type_1', '=', 'tbl_appointment_types.id')
+        ->join('tbl_clinic', 'tbl_client.clinic_id', '=', 'tbl_clinic.id')
         ->leftjoin('tbl_tracer_client', 'tbl_client.id', '=', 'tbl_tracer_client.client_id')
-        ->select('tbl_appointment.id as app_id', 'tbl_client.id as client_id', 'tbl_tracer_client.is_assigned', 'tbl_client.clinic_number as clinic_number', DB::raw("CONCAT(`tbl_client`.`f_name`, ' ', `tbl_client`.`m_name`, ' ', `tbl_client`.`l_name`) as client_name"), 'tbl_appointment.appntmnt_date', 'tbl_appointment_types.name as app_type')
+        ->select('tbl_appointment.id as app_id', 'tbl_client.id as client_id', 'tbl_tracer_client.is_assigned', 'tbl_clinic.name as clinic_name', 'tbl_client.clinic_number as clinic_number', DB::raw("CONCAT(`tbl_client`.`f_name`, ' ', `tbl_client`.`m_name`, ' ', `tbl_client`.`l_name`) as client_name"), 'tbl_appointment.appntmnt_date', 'tbl_appointment_types.name as app_type')
         ->where('tbl_appointment.appntmnt_date', '>', Now())
         ->where('tbl_client.mfl_code', Auth::user()->facility_id)
         ->get();

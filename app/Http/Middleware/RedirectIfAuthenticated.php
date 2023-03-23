@@ -21,11 +21,11 @@ class RedirectIfAuthenticated
     {
 
         if (Auth::guard($guard)->check()) {
-            if (Auth::user()->access_level == 'Admin' || Auth::user()->access_level == 'Partner' || Auth::user()->access_level == 'Donor') {
-                return redirect('/Reports/dashboard')->with('success', 'Login Success! You will be redirected to your Home page in a few.');
+            if (Auth::user()->access_level == 'Admin' || Auth::user()->access_level == 'Partner' || Auth::user()->access_level == 'Donor' || Auth::user()->access_level == 'County' || Auth::user()->access_level == 'Sub County') {
+                return redirect('/admin/dashboard')->with('success', 'Login Success! You will be redirected to your Home page in a few.');
             }
             if (Auth::user()->access_level == 'Facility') {
-                return redirect('/Reports/facility_home')->with('success', 'Login Success! You will be redirected to your Home page in a few.');
+                return redirect('/admin/dashboard')->with('success', 'Login Success! You will be redirected to your Home page in a few.');
             }
         }
         return $next($request);
