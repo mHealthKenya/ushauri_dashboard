@@ -70,11 +70,13 @@
                                             <tr>
                                                 <th>No.</th>
                                                 <th>Clinic Number</th>
+                                                <th>UPI Number</th>
                                                 <th>Gender</th>
                                                 <th>Group</th>
                                                 <th>Marital Status</th>
                                                 <th>Created At</th>
                                                 <th>Month Year</th>
+                                                <th>Consent</th>
                                                 <th>Language</th>
                                                 <th>Text Time</th>
                                                 <th>Enrollment Date</th>
@@ -96,11 +98,13 @@
                                                     <tr>
                                                         <td> {{ $loop->iteration }}</td>
                                                         <td>  {{$clients->clinic_number}}</td>
+                                                        <td>  {{$clients->upi_no}}</td>
                                                         <td>  {{$clients->gender}}</td>
                                                         <td>  {{$clients->group_name}}</td>
                                                         <td>  {{$clients->marital}}</td>
-                                                        <td>  {{$clients->created_at}}</td>
+                                                        <td>  {{date('d-m-Y', strtotime($clients->created_at))}}</td>
                                                         <td>  {{$clients->month_year}}</td>
+                                                        <td>  {{$clients->consented}}</td>
                                                         <td>  {{$clients->LANGUAGE}}</td>
                                                         <td>  {{$clients->txt_time}}</td>
                                                         <td>  {{$clients->enrollment_date}}</td>

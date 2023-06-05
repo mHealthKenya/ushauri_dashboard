@@ -92,7 +92,7 @@
                         </div>
 
                         <div class="col-md-3 form-group mb-3" id="add_partner_div">
-                            <label for="lastName1">Partner</label>
+                            <label for="partner">Partner</label>
                             <select class="form-control" data-width="100%" id="partner" name="partner">
                                 <option value="">Please select </option>
                                 @if (count($partners) > 0)
@@ -363,7 +363,7 @@
             $('#add_facility_div').show();
             $('#add_county_div').hide();
             $('#add_subcounty_div').hide();
-            $('#add_partner_div').hide();
+            $('#add_partner_div').show();
             $('#add_clinic_div').show();
 
             $('#add_bio_div').show();
